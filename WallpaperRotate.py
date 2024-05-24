@@ -55,7 +55,7 @@ def set_wallpaper_vda(path: str) -> bool:
         return False
 
 
-set_wallpaper = set_wallpaper_vda  # TODO
+set_wallpaper = set_wallpaper_spi  # TODO
 
 
 def load_json(path: str):
@@ -158,7 +158,8 @@ def main():
     config = load_json("config.json")
     executor = WallpaperExecutor(logger)
 
-    loop = asyncio.get_event_loop()
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
     tasks = [
         loop.create_task(execute_periodically(executor, min(config["interval"], 600))),
         loop.create_task(execute_watch_file(executor, ["config.json", "state.json"])),
