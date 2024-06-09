@@ -1,4 +1,5 @@
 import os
+import sys
 import json
 import time
 import random
@@ -55,7 +56,11 @@ def set_wallpaper_vda(path: str) -> bool:
         return False
 
 
-set_wallpaper = set_wallpaper_spi  # TODO
+windows_version = sys.getwindowsversion()
+if windows_version.major >= 10 and windows_version.build >= 21313:
+    set_wallpaper = set_wallpaper_vda
+else:
+    set_wallpaper = set_wallpaper_spi
 
 
 def load_json(path: str):
